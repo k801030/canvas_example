@@ -26,10 +26,13 @@ function BarChart(_x,_y){
     
     
     length+=12*i;
-    if(length>maxLength)
+    if(length>maxLength){
       i = -i;
-    else if(length<0)
+      length = maxLength
+    }else if(length<0){
       i = -i;
+      length=0
+    }
     move(length,i);
   };
   
