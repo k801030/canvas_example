@@ -5,29 +5,48 @@ function Output(_x,_y){
   }
   var maxLength = 360;
   var width = 40;
+  var canvas = null;
   var ctx = null;
   var offset = _y;
-
+  var bars = [];
 
   var init = function(){
-    var canvas = document.getElementById('output');
+    canvas = document.getElementById('output');
     ctx = canvas.getContext('2d');
   }
 
   
-  this.draw = function(color,length){
-
+  this.redraw = function(color,length,i,end){
     var canvas = document.getElementById('output');
     ctx = canvas.getContext('2d');
     
-    realLength = length/9*4;
-    ctx.fillStyle = color;
-    ctx.fillRect(pos.x,offset, width, -realLength);
+    for(var i=0;i<bars.length;i++){
+      ctx.fillStyle = bars[i].color;
+      ctx.fillRect(pos.x,bars[i].pos, width, -bars[i].length);
+      if(bars[i].pos<bars[i].offset+bars[i].length){
+        bars[i].pos+=10;
+      }else {
+        bars[i].pos = bars[i].offset+bars[i].length;
+      }
+    }
     
-    offset -= realLength;
-    console.log(offset);
+    
+    
   };
   
+  this.drop = function(color,length){
+    realLength = length/9*4;
+    //draw(color,realLength,0,offset);
+    offset -= realLength;
+    var bar = {
+      color:color,
+      length:realLength,
+      pos:0,
+      offset:offset
+    }
+    bars.push(bar);
+  }
+
   this.getLength = function(){
     return length;
   }
